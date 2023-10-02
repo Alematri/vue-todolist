@@ -38,16 +38,19 @@
       >
       <button @click="addTask">Aggiungi</button>
       <p
-        v-if="isError"
         class="error"
-      >il nuovo task deve avere almeno 5 caratteri</p>
+      >{{errorMsg}}</p>
     </div>
 
 
     <div class="task-container">
       <ul v-if="tasks.length > 0">
-        <li v-for="(task, index) in tasksUpper">
-          <span>{{task}}</span>
+        <li
+        v-for="(task, index) in tasks"
+        :class="{'done' : task.done}"
+        @click="task.done =!this.done"
+        >
+          <span>{{ task.text }}</span>
           <i @click="removeTask(index)" class="fa-solid fa-trash"></i>
         </li>
       </ul>

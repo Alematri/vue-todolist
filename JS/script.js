@@ -4,38 +4,48 @@ createApp({
   data(){
     return{
       tasks:[
-        'Fare la spesa',
-        'Studiare Vue',
-        'Comprare la pappa di Artù'
+        {
+          text: 'Fare la spesa',
+          done: false
+        }
       ],
+
       newTask:'',
-      isError: false
+      isError: false,
+      errorMsg:''
     }
   },
 
   methods:{
+    writeErrors(errorStr){
+      this.errorMsg = errorStr;
+      setTimeout(()=>{
+        this.errorMsg = '';
+      },2000)
+    },
+
     addTask(){
+
       if(this.newTask.length < 5){
-        this.isError = true
+        this.writeErrors ('Errore! Il task deve avere almeno 5 caratteri');
       }else{
       // aggiungo newTask all'array tasks
-      this.tasks.unshift(this.newTask);
+      const newTaskObj =  {
+        text: this.newTask,
+        done: false
+      }
+      this.tasks.unshift(newTaskObj);
       this.newTask = '';
-      this.isError = false;
       }
     },
+    
     removeTask(index){
-      this.tasks.splice(index, 1)
+      if(this.tasks[index].done){
+        this.tasks.splice(index,1)
+      }else{
+        this.writeErrors("Errore! Il task non è stato ancora svolto!");
+      }
     }
   },
-
-  computed:{
-    tasksUpper(){
-      const tasksUp = this.tasks.map(task => {
-        return task.toUpperCase();
-      });
-      return tasksUp;
-    }
-  }
 
 }).mount('#app');

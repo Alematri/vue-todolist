@@ -77,3 +77,7 @@ img{
 h3{
   text-align: center;
 }
+
+.task-container li.done{
+  text-decoration: line-through;
+}
